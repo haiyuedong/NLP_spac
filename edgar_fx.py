@@ -4,6 +4,8 @@ import requests
 import pandas as pd
 import time
 import json
+import os
+email = os.getenv('EMAIL')
 
 # Define the is_comment function outside to ensure it's available when referenced
 def remove_uuencoded_data(html_content):
@@ -62,7 +64,7 @@ def edgar_fetch_company_info(cik):
     """
     allf_url = 'https://data.sec.gov/submissions/CIK{}.json'
     thiscik_url = allf_url.format(cik)
-    headers = {'User-Agent':'HY Dong chelseadong202@yahoo.com'}
+    headers = {'User-Agent':email}
     
     thiscik_request = requests.get(thiscik_url, headers=headers)
     time.sleep(1)  # Respect the SEC's "Fair Access" rule
@@ -89,7 +91,7 @@ def edgar_fetch_424b4(cik, thiscik_contents):
     - str: The text content of the fetched 424B4 document.
     """
     thisf_url = 'https://www.sec.gov/Archives/edgar/data/{0}/{1}.txt'
-    headers = {'User-Agent':'HY Dong chelseadong202@yahoo.com'}
+    headers = {'User-Agent': email}
 
     # Create a DataFrame from recent filings
     allf = thiscik_contents['filings']['recent']
@@ -121,7 +123,7 @@ def edgar_fetch_424other(cik, form, thiscik_contents):
     - str: The text content of the fetched 424B4 document.
     """
     thisf_url = 'https://www.sec.gov/Archives/edgar/data/{0}/{1}.txt'
-    headers = {'User-Agent':'HY Dong chelseadong202@yahoo.com'}
+    headers = {'User-Agent': email}
 
     # Create a DataFrame from recent filings
     allf = thiscik_contents['filings']['recent']
@@ -154,7 +156,7 @@ def edgar_fetch_424b4_or_s1(cik, thiscik_contents):
     - str: The text content of the fetched document.
     """
     thisf_url = 'https://www.sec.gov/Archives/edgar/data/{0}/{1}.txt'
-    headers = {'User-Agent': 'Your Name your.email@example.com'}
+    headers = {'User-Agent': email}
 
     # Create a DataFrame from recent filings
     allf = thiscik_contents['filings']['recent']
